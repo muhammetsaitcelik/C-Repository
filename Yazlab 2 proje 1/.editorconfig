@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0055: Biçimlendirme Düzeltme
+dotnet_diagnostic.IDE0055.severity = none
+
+# IDE0058: İfade değeri asla kullanılmaz
+csharp_style_unused_value_expression_statement_preference = discard_variable:none

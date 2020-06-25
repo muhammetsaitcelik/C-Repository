@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LoginDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Admin1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Bookid" />
+    </Key>
+    <Property Name="Bookid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Bookname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="isbn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="kullanıcı" Relationship="Self.FK_kullanıcı_Book" FromRole="Book" ToRole="kullanıcı" />
+  </EntityType>
+  <EntityType Name="kullanıcı">
+    <Key>
+      <PropertyRef Name="kullanıcıid" />
+    </Key>
+    <Property Name="kullanıcıid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bookid" Type="Int32" Nullable="false" />
+    <Property Name="kitapid" Type="Int32" Nullable="false" />
+    <Property Name="retundate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_kullanıcı_Book" FromRole="kullanıcı" ToRole="Book" />
+    <NavigationProperty Name="User" Relationship="Self.FK_kullanıcı_User" FromRole="kullanıcı" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="kullanıcı" Relationship="Self.FK_kullanıcı_User" FromRole="User" ToRole="kullanıcı" />
+  </EntityType>
+  <Association Name="FK_kullanıcı_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="kullanıcı" Type="Self.kullanıcı" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Bookid" />
+      </Principal>
+      <Dependent Role="kullanıcı">
+        <PropertyRef Name="bookid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_kullanıcı_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="kullanıcı" Type="Self.kullanıcı" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="kullanıcı">
+        <PropertyRef Name="kitapid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LoginDataEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="admin" EntityType="Self.admin" />
+    <EntitySet Name="Book" EntityType="Self.Book" />
+    <EntitySet Name="kullanıcı" EntityType="Self.kullanıcı" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_kullanıcı_Book" Association="Self.FK_kullanıcı_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="kullanıcı" EntitySet="kullanıcı" />
+    </AssociationSet>
+    <AssociationSet Name="FK_kullanıcı_User" Association="Self.FK_kullanıcı_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="kullanıcı" EntitySet="kullanıcı" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

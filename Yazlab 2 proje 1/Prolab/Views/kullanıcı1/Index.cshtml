@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Prolab.Models.kullanıcı>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Kullanıcılar</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.retundate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Bookname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.retundate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Bookname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Username)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+
+</table>
